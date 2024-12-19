@@ -2,13 +2,32 @@ from django import forms
 from .models import User 
 
 class UserRegisterForm(forms.ModelForm):
-    confirm_password = forms.CharField(
-        widget=forms.PasswordInput(attrs={
-            'placeholder': 'Confirme sua senha',
-            'class': 'form-control'
-        }),
-        label="Confirme sua senha"
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={"class": "form-control", "placeholder": "Digite sua senha"}),
+        label="Senha",
     )
+    confirm_password = forms.CharField(
+        widget=forms.PasswordInput(attrs={"class": "form-control", "placeholder": "Confirme sua senha"}),
+        label="Confirme a senha",
+    )
+
+    class Meta:
+        model = User
+        fields = ["first_name", "email", "password"]
+        widgets = {
+            "first_name": forms.TextInput(attrs={"class": "form-control", "placeholder": "Digite seu nome"}),
+            "email": forms.EmailInput(attrs={"class": "form-control", "placeholder": "Digite seu email"}),
+        }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        confirm_password = cleaned_data.get("confirm_password")
+
+        if password != confirm_password:
+            self.add_error("confirm_password", "As senhas não coincidem.")
+
+        return cleaned_data
 
     class Meta:
         model = User
