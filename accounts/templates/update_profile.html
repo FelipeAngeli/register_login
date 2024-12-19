@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}
+Atualizar Perfil
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center mb-4">Atualizar Perfil</h2>
+    
+    <!-- Formulário para atualização do perfil -->
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="first_name">Primeiro Nome:</label>
+            <input type="text" id="first_name" name="first_name" class="form-control"
+                   value="{{ user.first_name }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="last_name">Sobrenome:</label>
+            <input type="text" id="last_name" name="last_name" class="form-control"
+                   value="{{ user.last_name|default:'' }}">
+        </div>
+        
+        <div class="form-group">
+            <label for="phone_number">Telefone:</label>
+            <input type="text" id="phone_number" name="phone_number" class="form-control"
+                   value="{{ user.phone_number|default:'' }}">
+        </div>
+        
+        <div class="form-group">
+            <label for="gender">Gênero:</label>
+            <select id="gender" name="gender" class="form-control">
+                <option value="" {% if not user.gender %}selected{% endif %}>Selecione</option>
+                <option value="Feminino" {% if user.gender == "Feminino" %}selected{% endif %}>Feminino</option>
+                <option value="Masculino" {% if user.gender == "Masculino" %}selected{% endif %}>Masculino</option>
+                <option value="Outro" {% if user.gender == "Outro" %}selected{% endif %}>Outro</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="profile_picture">Foto de Perfil:</label>
+            <input type="file" id="profile_picture" name="profile_picture" class="form-control-file">
+        </div>
+        
+        <!-- Botões de ação -->
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+            <a href="{% url 'home' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

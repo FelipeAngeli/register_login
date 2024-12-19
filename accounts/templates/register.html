@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Registrar{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center">Registrar</h2>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <!-- Formulário de registro -->
+    <form method="POST" enctype="multipart/form-data" action="{% url 'register' %}" class="form-horizontal">
+        {% csrf_token %}
+        
+        <!-- Campo de erros gerais do formulário -->
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <!-- Renderiza cada campo do formulário com classes personalizadas -->
+        <div class="custom-form-group">
+            {{ form.first_name.label_tag }}
+            {{ form.first_name }}
+            {{ form.first_name.errors }}
+        </div>
+        <div class="custom-form-group">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+            {{ form.email.errors }}
+        </div>
+        <div class="custom-form-group">
+            {{ form.password.label_tag }}
+            {{ form.password }}
+            {{ form.password.errors }}
+        </div>
+        <div class="custom-form-group">
+            {{ form.confirm_password.label_tag }}
+            {{ form.confirm_password }}
+            {{ form.confirm_password.errors }}
+        </div>
+
+        <!-- Botão de registro -->
+        <div class="custom-form-group text-center">
+            <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+        </div>
+    </form>
+
+    <!-- Link para login -->
+    <p class="text-center mt-3">
+        Já tem uma conta? <a href="{% url 'login' %}" class="btn-link">Faça login</a>
+    </p>
+</div>
+{% endblock %}

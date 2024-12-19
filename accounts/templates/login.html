@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center">Login</h2>
+    
+    <!-- Exibe mensagens de erro ou sucesso -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {{ message.tags }}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    
+    <!-- Formulário de login -->
+    <form method="POST" action="{% url 'login' %}" novalidate>
+        {% csrf_token %}
+        
+        <div class="textfield-email">
+            <label for="email">Email:</label>
+            <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                placeholder="Digite seu email" 
+                required 
+                class="form-control"
+            >
+        </div>
+        
+        <div class="textfield-password">
+            <label for="password">Senha:</label>
+            <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                placeholder="Digite sua senha" 
+                required 
+                class="form-control"
+            >
+        </div>
+        
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Entrar</button>
+        </div>
+    </form>
+    
+    
+    <p class="text-center mt-3">
+        Não tem conta? <a href="{% url 'register' %}" class="btn-link">Registre-se</a>
+    </p>
+</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Homepage
+{% endblock %}
+
+{% block content %}
+<div class="container home-container">
+    <div class="profile-picture">
+        {% if user.profile_picture %}
+            <img src="{{ user.profile_picture.url }}" alt="Foto de Perfil">
+        {% else %}
+            <img src="{% static 'img/default_profile.png' %}" alt="Foto Padrão">
+        {% endif %}
+    </div>
+
+    <h1>Bem-vindo, {{ user.first_name }}</h1>
+
+    <div class="user-info">
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Nome:</strong> {{ user.first_name }}</p>
+        <p><strong>Sobrenome:</strong> {{ user.last_name|default:"N/A" }}</p>
+        <p><strong>Telefone:</strong> {{ user.phone_number|default:"N/A" }}</p>
+        <p><strong>Gênero:</strong> {{ user.gender|default:"N/A" }}</p>
+    </div>
+
+    <div class="btn-group" role="group">
+        <a href="{% url 'update_profile' %}" class="btn btn-primary">Editar Perfil</a>
+        <button type="submit" class="btn btn-secondary" form="logout-form">Sair</button>
+    </div>
+    
+    <form id="logout-form" method="POST" action="{% url 'logout' %}" style="display: none;">
+        {% csrf_token %}
+    </form>
+</div>
+{% endblock %}
