@@ -2,11 +2,19 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from phonenumber_field.modelfields import PhoneNumberField
 
-
 class MyCustomUserManager(BaseUserManager):
-    def create_user(self, email, first_name, last_name=None, phone_number=None, gender=None, password=None):
+    """
+    Custom Manager para o modelo User sem o campo de username.
+    """
+    def create_user(self, 
+                    email, 
+                    first_name, 
+                    last_name=None, 
+                    phone_number=None, 
+                    gender=None, 
+                    password=None):
         if not email:
-            raise ValueError('O email deve ser definido.')
+            raise ValueError("O email deve ser definido.")
 
         email = self.normalize_email(email)
         user = self.model(
@@ -20,7 +28,16 @@ class MyCustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, password, first_name, last_name=None, phone_number=None, gender=None):
+    def create_superuser(self, 
+                         email, 
+                         first_name, 
+                         password, 
+                         last_name=None, 
+                         phone_number=None, 
+                         gender=None):
+        """
+        Criação de superusuário com privilégios administrativos.
+        """
         user = self.create_user(
             email=email,
             first_name=first_name,
@@ -36,6 +53,9 @@ class MyCustomUserManager(BaseUserManager):
 
 
 class User(AbstractUser):
+    """
+    Modelo customizado de usuário que substitui o username pelo email como identificador único.
+    """
     GENDER_CHOICES = [
         ('feminino', 'Feminino'),
         ('masculino', 'Masculino'),
@@ -44,7 +64,7 @@ class User(AbstractUser):
 
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100, blank=True, null=True)
-    username = None
+    username = None  # Remove o campo username do modelo padrão
     gender = models.CharField(
         max_length=20, 
         choices=GENDER_CHOICES, 
@@ -69,7 +89,7 @@ class User(AbstractUser):
 
     objects = MyCustomUserManager()
 
-    USERNAME_FIELD = "email"
+    USERNAME_FIELD = "email" 
     REQUIRED_FIELDS = ["first_name"]
 
     def __str__(self):
