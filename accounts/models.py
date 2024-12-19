@@ -2,17 +2,16 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from phonenumber_field.modelfields import PhoneNumberField
 
+
 class MyCustomUserManager(BaseUserManager):
     """
     Custom Manager para o modelo User sem o campo de username.
     """
-    def create_user(self, 
-                    email, 
-                    first_name, 
-                    last_name=None, 
-                    phone_number=None, 
-                    gender=None, 
-                    password=None):
+
+    def create_user(self, email, first_name, last_name=None, phone_number=None, gender=None, password=None):
+        """
+        Cria um usuário padrão com os campos fornecidos.
+        """
         if not email:
             raise ValueError("O email deve ser definido.")
 
@@ -24,17 +23,14 @@ class MyCustomUserManager(BaseUserManager):
             phone_number=phone_number,
             gender=gender,
         )
-        user.set_password(password)
+        if password:
+            user.set_password(password)
+        else:
+            raise ValueError("A senha deve ser definida.")
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, 
-                         email, 
-                         first_name, 
-                         password, 
-                         last_name=None, 
-                         phone_number=None, 
-                         gender=None):
+    def create_superuser(self, email, first_name, password, last_name=None, phone_number=None, gender=None):
         """
         Criação de superusuário com privilégios administrativos.
         """
@@ -66,10 +62,10 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=100, blank=True, null=True)
     username = None  # Remove o campo username do modelo padrão
     gender = models.CharField(
-        max_length=20, 
-        choices=GENDER_CHOICES, 
-        blank=True, 
-        null=True, 
+        max_length=20,
+        choices=GENDER_CHOICES,
+        blank=True,
+        null=True,
         default=None
     )
     email = models.EmailField(unique=True)
@@ -89,8 +85,11 @@ class User(AbstractUser):
 
     objects = MyCustomUserManager()
 
-    USERNAME_FIELD = "email" 
-    REQUIRED_FIELDS = ["first_name"]
+    USERNAME_FIELD = "email"  # Define o email como campo de identificação único
+    REQUIRED_FIELDS = ["first_name"]  # Campos obrigatórios além do email
 
     def __str__(self):
+        """
+        Retorna a representação do objeto com o email do usuário.
+        """
         return self.email

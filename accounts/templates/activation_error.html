@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Erro na Ativação
+{% endblock %}
+
+{% block content %}
+<div class="container home-container">
+    <h1>Erro na Ativação da Conta</h1>
+    <p>{{ error_message }}</p>
+    <a href="{% url 'register' %}">Registrar-se Novamente</a>
+</div>
+{% endblock %}

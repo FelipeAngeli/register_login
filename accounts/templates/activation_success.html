@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Conta Ativada
+{% endblock %}
+
+{% block content %}
+<div class="container home-container">
+    <h1>Conta Ativada com Sucesso!</h1>
+    <p>Sua conta foi ativada. Agora você pode fazer login na aplicação.</p>
+    <a href="{% url 'login' %}">Fazer Login</a>
+</div>
+{% endblock %}
