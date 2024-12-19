@@ -7,7 +7,6 @@ Atualizar Perfil
 <div class="container">
     <h2 class="text-center mb-4">Atualizar Perfil</h2>
     
-    <!-- Formulário para atualização do perfil -->
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         
@@ -43,9 +42,8 @@ Atualizar Perfil
             <label for="profile_picture">Foto de Perfil:</label>
             <input type="file" id="profile_picture" name="profile_picture" class="form-control-file">
         </div>
-        
-        <!-- Botões de ação -->
-        <div class="text-center mt-4">
+    
+        <div class="btn-group" role="group">
             <button type="submit" class="btn btn-primary">Salvar Alterações</button>
             <a href="{% url 'home' %}" class="btn btn-secondary">Cancelar</a>
         </div>
