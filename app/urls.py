@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 
 from accounts.views import activate_account
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', lambda request: redirect('login')),

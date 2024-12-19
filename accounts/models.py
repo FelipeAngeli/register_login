@@ -47,7 +47,6 @@ class MyCustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-
 class User(AbstractUser):
     """
     Modelo customizado de usuário que substitui o username pelo email como identificador único.
@@ -85,8 +84,8 @@ class User(AbstractUser):
 
     objects = MyCustomUserManager()
 
-    USERNAME_FIELD = "email"  # Define o email como campo de identificação único
-    REQUIRED_FIELDS = ["first_name"]  # Campos obrigatórios além do email
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["first_name"]
 
     def __str__(self):
         """
