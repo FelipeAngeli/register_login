@@ -1,9 +1,7 @@
 
 # Register_Login
 
-Projeto em Contrução
-
-Este é um projeto Django que implementa um sistema de registro e login de usuários.
+Este é um projeto Django que implementa um sistema de registro e login de usuários, além de ter validação por email. 
 
 ## Funcionalidades
 
