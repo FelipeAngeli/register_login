@@ -68,7 +68,7 @@ class User(AbstractUser):
         default=None
     )
     email = models.EmailField(unique=True)
-    phone_number = PhoneNumberField(blank=True, null=True)
+    phone_number = PhoneNumberField(blank=True, null=True, region="BR")
     profile_picture = models.ImageField(upload_to="profile_pictures/", blank=True, null=True)
 
     groups = models.ManyToManyField(

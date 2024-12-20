@@ -6,43 +6,48 @@ Atualizar Perfil
 {% block content %}
 <div class="container">
     <h2 class="text-center mb-4">Atualizar Perfil</h2>
+
+    <!-- Exibe mensagens de erro ou sucesso -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
     
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         
+        {{ form.non_field_errors }}
+        
+        <!-- Renderiza os campos do formulário -->
         <div class="form-group">
-            <label for="first_name">Primeiro Nome:</label>
-            <input type="text" id="first_name" name="first_name" class="form-control"
-                   value="{{ user.first_name }}" required>
+            {{ form.first_name.label_tag }}
+            {{ form.first_name }}
+            {{ form.first_name.errors }}
+        </div>
+        <div class="form-group">
+            {{ form.last_name.label_tag }}
+            {{ form.last_name }}
+            {{ form.last_name.errors }}
+        </div>
+        <div class="form-group">
+            {{ form.phone_number.label_tag }}
+            {{ form.phone_number }}
+            {{ form.phone_number.errors }}
+        </div>
+        <div class="form-group">
+            {{ form.gender.label_tag }}
+            {{ form.gender }}
+            {{ form.gender.errors }}
+        </div>
+        <div class="form-group">
+            {{ form.profile_picture.label_tag }}
+            {{ form.profile_picture }}
+            {{ form.profile_picture.errors }}
         </div>
         
-        <div class="form-group">
-            <label for="last_name">Sobrenome:</label>
-            <input type="text" id="last_name" name="last_name" class="form-control"
-                   value="{{ user.last_name|default:'' }}">
-        </div>
-        
-        <div class="form-group">
-            <label for="phone_number">Telefone:</label>
-            <input type="text" id="phone_number" name="phone_number" class="form-control"
-                   value="{{ user.phone_number|default:'' }}">
-        </div>
-        
-        <div class="form-group">
-            <label for="gender">Gênero:</label>
-            <select id="gender" name="gender" class="form-control">
-                <option value="" {% if not user.gender %}selected{% endif %}>Selecione</option>
-                <option value="Feminino" {% if user.gender == "Feminino" %}selected{% endif %}>Feminino</option>
-                <option value="Masculino" {% if user.gender == "Masculino" %}selected{% endif %}>Masculino</option>
-                <option value="Outro" {% if user.gender == "Outro" %}selected{% endif %}>Outro</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label for="profile_picture">Foto de Perfil:</label>
-            <input type="file" id="profile_picture" name="profile_picture" class="form-control-file">
-        </div>
-    
         <div class="btn-group" role="group">
             <button type="submit" class="btn btn-primary">Salvar Alterações</button>
             <a href="{% url 'home' %}" class="btn btn-secondary">Cancelar</a>

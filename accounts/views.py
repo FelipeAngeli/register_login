@@ -106,18 +106,18 @@ def update_profile_view(request):
     """
     View para atualização do perfil do usuário.
     """
-    form = UserUpdateForm(request.POST or None, request.FILES or None, instance=request.user)
-    if request.method == "POST" and form.is_valid():
-        try:
-            form.save()
-            messages.success(request, "Perfil atualizado com sucesso.")
-            return redirect("home")
-        except IntegrityError:
-            messages.error(request, "Erro de integridade ao salvar os dados.")
-        except Exception as e:
-            messages.error(request, f"Erro inesperado: {str(e)}")
-    elif request.method == "POST":
-        handle_form_errors(request, form)
+    user = request.user  # Obtém o usuário autenticado
+    if request.method == "POST":
+        form = UserUpdateForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()  # Salva os dados no banco de dados
+            messages.success(request, "Perfil atualizado com sucesso!")
+            return redirect("home")  # Redireciona para a página inicial
+        else:
+            messages.error(request, "Por favor, corrija os erros no formulário.")
+    else:
+        form = UserUpdateForm(instance=user)  # Preenche o formulário com os dados atuais do usuário
+
     return render(request, "update_profile.html", {"form": form})
 
 
