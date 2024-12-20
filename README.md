@@ -1,6 +1,10 @@
 
 # Register_Login
 
+
+https://github.com/user-attachments/assets/363ce4c8-54a0-4375-997d-b21cd7a63503
+
+
 Este é um projeto Django que implementa um sistema de registro e login de usuários, além de ter validação por email. 
 
 ## Funcionalidades
